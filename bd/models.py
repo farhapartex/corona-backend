@@ -3,18 +3,28 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from system.models import Base
+from scrappers import scrapper
 # Create your models here.
 
 class BDInfo(Base):
-    patient = models.IntegerField(_("New Patient today"))
-    total_patient = models.IntegerField(_("Total Patient"))
-    died = models.IntegerField(_("Died today"))
-    total_died = models.IntegerField(_("Total Died"))
-    recovered = models.IntegerField(_("Recovered Today"))
-    total_recovered = models.IntegerField(_("Total Recovered"))
-    tested = models.IntegerField(_("Tested Today"))
-    total_tested = models.IntegerField(_("Total Tested"))
+    patient = models.IntegerField(_("New Patient today"), blank=True, null=True)
+    total_patient = models.IntegerField(_("Total Patient"), blank=True, null=True)
+    died = models.IntegerField(_("Died today"), blank=True, null=True)
+    total_died = models.IntegerField(_("Total Died"), blank=True, null=True)
+    recovered = models.IntegerField(_("Recovered Today"), blank=True, null=True)
+    total_recovered = models.IntegerField(_("Total Recovered"), blank=True, null=True)
+    tested = models.IntegerField(_("Tested Today"), blank=True, null=True)
+    total_tested = models.IntegerField(_("Total Tested"), blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        local_scrapper = scrapper.BDScrapper()
+        data = local_scrapper.get_data()
+        if data:
+            self.patient, self.total_patient = data[0][0], data[0][1]
+            self.died, self.total_died = data[1][0], data[1][1]
+            self.recovered, self.total_recovered = data[2][0], data[2][1]
+            self.tested, self.total_tested = data[3][0], data[3][1]
+            super(BDInfo, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.created_at
-
+        return str(self.created_at)

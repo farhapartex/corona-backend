@@ -8,7 +8,7 @@ from django.conf import settings # correct way
 import os
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-NUMBER_DICT = {"১":"1", "২":"2", "৩":"3", "৪":"4", "৫":"5", "৬":"6", "৭":"8", "৮":"9", "৯":"9", "০":"0" }
+NUMBER_DICT = {"১":"1", "২":"2", "৩":"3", "৪":"4", "৫":"5", "৬":"6", "৭":"7", "৮":"8", "৯":"9", "০":"0" }
 
 
 class BDScrapper:
@@ -60,5 +60,3 @@ class BDScrapper:
 
         except:
             print("Check login url, try again!")
-
-obj = BDScrapper()
