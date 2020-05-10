@@ -18,9 +18,16 @@ from django.urls import path, re_path, include
 from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from bd import views as bd_views
+
+router = DefaultRouter()
+
+router.register(r"bd-infos", bd_views.BDInfoAPIView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path(r"^api/v1/", include(router.urls)),
 ]
 
 if settings.DEBUG:
