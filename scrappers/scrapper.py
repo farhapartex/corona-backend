@@ -11,7 +11,7 @@ base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NUMBER_DICT = {"১":"1", "২":"2", "৩":"3", "৪":"4", "৫":"5", "৬":"6", "৭":"7", "৮":"8", "৯":"9", "০":"0" }
 
 
-class BDScrapper:
+class Scrapper:
     def __init__(self):
         self._url = "https://corona.gov.bd/"
         self._chrome_driver_path, self._webdriver = "", None
@@ -41,8 +41,9 @@ class BDScrapper:
         return num
     
 
-    def get_data(self):
+    def get_bd_data(self):
         try:
+            self._url = "https://corona.gov.bd/"
             wait = WebDriverWait(self._webdriver, 10)
             print("Mission started! Wait...")
             self._webdriver.get(self._url)
@@ -58,5 +59,25 @@ class BDScrapper:
             self._webdriver.close()
             return data
 
+        except:
+            print("Check login url, try again!")
+    
+
+    def get_global_data(self):
+        try:
+            self._url = "https://www.worldometers.info/coronavirus/"
+            wait = WebDriverWait(self._webdriver, 10)
+            print("Mission started! Wait...")
+            self._webdriver.get(self._url)
+            # wait.until(presence_of_element_located((By.CSS_SELECTOR, ".maincounter-wrap")))
+            # get fields
+            live_updates = self._webdriver.find_elements_by_class_name("maincounter-number")
+            data = []
+            for update in live_updates:
+                span = update.find_elements_by_tag_name("span")
+                # d = span[0].text.replace(",","")
+                data.append(span[0].text.replace(",",""))
+            
+            return data
         except:
             print("Check login url, try again!")

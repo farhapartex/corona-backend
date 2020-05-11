@@ -18,8 +18,8 @@ class BDInfo(Base):
     total_tested = models.IntegerField(_("Total Tested"), blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        local_scrapper = scrapper.BDScrapper()
-        data = local_scrapper.get_data()
+        local_scrapper = scrapper.Scrapper()
+        data = local_scrapper.get_bd_data()
         today = datetime.today().date()
         if data:
             self.patient, self.total_patient = data[0][0], data[0][1]
