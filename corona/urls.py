@@ -20,10 +20,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from bd import views as bd_views
+from world import views as w_views
 
 router = DefaultRouter()
 
 router.register(r"bd-infos", bd_views.BDInfoAPIView)
+router.register(r"global-infos", w_views.WorldInfoAPIView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
