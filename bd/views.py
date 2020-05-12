@@ -30,8 +30,3 @@ class BDInfoAPIView(viewsets.ModelViewSet):
     serializer_class = BDInfoSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = BDInfoFilter
-
-    # def get_queryset(self):
-    #     today = datetime.today().date()
-    #     queryset = BDInfo.objects.filter(created_at__date=today)
-    #     return queryset
